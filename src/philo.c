@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/09 15:22:23 by pcazac           ###   ########.fr       */
+/*   Created: 2023/10/09 15:15:58 by pcazac            #+#    #+#             */
+/*   Updated: 2023/10/09 16:40:13 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "../include/philo.h"
 
-# include <string.h>
-# include <sys/time.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <pthread.h>
-# include <stdbool.h>
-# include <stdio.h>
+int	main(int argc, char **argv)
+{
+	// int	i;
 
-bool	check_args(int argc, char **argv);
+	if (!check_args(argc, argv))
+		return (printf("Arg error\n"), 1);
+	return (0);
+}
 
-#endif
+

@@ -1,26 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   init_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/09 15:22:23 by pcazac           ###   ########.fr       */
+/*   Created: 2023/10/09 14:08:52 by pcazac            #+#    #+#             */
+/*   Updated: 2023/10/09 15:20:36 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "../include/philo.h"
 
-# include <string.h>
-# include <sys/time.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <pthread.h>
-# include <stdbool.h>
-# include <stdio.h>
+bool	ft_isnum(char *arg)
+{
+	int	i;
 
-bool	check_args(int argc, char **argv);
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i] < '0' || arg[i] > '9')
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
-#endif
+bool	check_args(int argc, char **argv)
+{
+	int	i;
+
+	i = 1;
+	if (argc != 6)
+		return (false);
+	while (i < argc)
+	{
+		if (!ft_isnum(argv[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
