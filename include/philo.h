@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/09 09:21:07 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/10 21:40:59 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,24 @@
 # include <unistd.h>
 # include <pthread.h>
 
+typedef struct s_time
+{
+	int			philo;
+	useconds_t	eating;
+	useconds_t	sleeping;
+	useconds_t	thinking;
+}			t_time;
+
+typedef struct s_philo
+{
+	int				id;
+	int				eat_count;
+	int				left_fork;
+	int				right_fork;
+	useconds_t		last_eat;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	*print;
+	t_time			*time;
+}					t_philo;
 
 #endif
