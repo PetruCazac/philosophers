@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 14:08:52 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/11 09:12:12 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/11 17:17:30 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ bool	ft_isnum(char *arg)
 		i++;
 	}
 	if (i > 6)
-		return (printf("Time too long\n"), false);
+		return (printf("Number too long\n"), false);
 	return (true);
 }
 
@@ -33,7 +33,7 @@ bool	check_args(int argc, char **argv)
 	int	i;
 
 	i = 1;
-	if (argc != 6)
+	if (argc != 6 || argc != 5)
 		return (false);
 	while (i < argc)
 	{

@@ -6,7 +6,7 @@
 #    By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/08 18:38:30 by pcazac            #+#    #+#              #
-#    Updated: 2023/10/09 15:27:59 by pcazac           ###   ########.fr        #
+#    Updated: 2023/10/11 13:48:01 by pcazac           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,13 @@ NAME = philo
 
 VPATH = src obj ;
 
-SRC = philo.c init_check.c 
+SRC = philo.c init_check.c struct_utils.c utils.c
 
 OBJ = $(SRC:%.c=$(OBJ_PATH)/%.o)
 OBJ_PATH = obj
 
 CC= cc
-CFLAGS= -g -Wall -Wextra -Werror
+CFLAGS= -g -pthread -Wall -Wextra -Werror
 
 all: $(NAME)
 
