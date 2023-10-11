@@ -1,45 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_check.c                                       :+:      :+:    :+:   */
+/*   struct_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 14:08:52 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/11 09:12:12 by pcazac           ###   ########.fr       */
+/*   Created: 2023/10/11 09:13:08 by pcazac            #+#    #+#             */
+/*   Updated: 2023/10/11 09:13:48 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-bool	ft_isnum(char *arg)
+void	fill_struct(t_time)
 {
-	int	i;
-
-	i = 0;
-	while (arg[i])
-	{
-		if (arg[i] < '0' || arg[i] > '9')
-			return (printf("Not a number!\n"), false);
-		i++;
-	}
-	if (i > 6)
-		return (printf("Time too long\n"), false);
-	return (true);
-}
-
-bool	check_args(int argc, char **argv)
-{
-	int	i;
-
-	i = 1;
-	if (argc != 6)
-		return (false);
-	while (i < argc)
-	{
-		if (!ft_isnum(argv[i]))
-			return (false);
-		i++;
-	}
-	return (true);
+	
 }
