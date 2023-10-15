@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:15:58 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/11 18:01:32 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/11 18:41:05 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,19 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-bool	create_philo()
-{
+// bool	create_philo()
+// {
 	
-}
+// }
 
-void	routine(t_param *param)
+void	routine(t_param *param, t_philo *philo)
 {
+	printf("%i has taken a fork", );
+	printf("%i is sleeping", pid);
+	printf("%i is thinking", pid);
+	printf("%i is eating", pid);
+	printf("%i died", pid);
+
 	usleep(param->sleeping);
 }
 // usleep, gettimeofday, pthread_create,
