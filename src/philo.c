@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:15:58 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/11 18:01:32 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/15 17:02:29 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,19 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-bool	create_philo()
+bool	create_philo(t_param *param)
 {
-	
+	int	i;
+	int	*a;
+	pthread_t	*philo;
+
+	while (i < param->philo)
+	{
+		a = ft_calloc(1, sizeof(int));
+		*a = i;
+		if (pthread_create(philo, a) != 0)
+			error_thread();
+	}
 }
 
 void	routine(t_param *param)
