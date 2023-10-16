@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 09:13:08 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/11 18:00:20 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/16 08:33:17 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_param	*fill_struct(char **argv)
 	param = ft_calloc(1, sizeof(t_param));
 	if (!param)
 		exit(1);
-	param->philo = ft_atoi(argv[1]);
+	param->nb_philo = ft_atoi(argv[1]);
 	param->die = ft_atoi(argv[2]);
 	param->eating = ft_atoi(argv[3]);
 	param->sleeping = ft_atoi(argv[4]);
