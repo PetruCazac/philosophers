@@ -6,15 +6,14 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:15:58 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/15 17:02:29 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/16 08:19:07 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-int	main(int argc, char **argv)
-{
-	t_param	*param;
+int	main(int argc, char **argv
+	t_param	**param;
 	// t_philo	*philo;
 
 	param = NULL;
