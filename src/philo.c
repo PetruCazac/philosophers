@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:15:58 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/16 18:56:34 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/17 16:24:17 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,30 @@ bool	initialize_forks(int i, t_param *param)
 
 	left_fork = ft_calloc(1, sizeof(pthread_mutex_t));
 	param->philo[i]->left_fork = left_fork;
+	if (!param->philo[i]->left_fork)
+		return(false);
+	param->philo[i]->dead_fork = ft_calloc(1, sizeof(pthread_mutex_t));
+	if (!param->philo[i]->dead_fork)
+		return(false);
 	if (i == 0)
 	{
 		if (pthread_mutex_init(left_fork, NULL))
 			return (false);
-		return (true);
 	}
 	else if (i != 0 && i < (param->nb_philo - 1))
 	{
 		if (pthread_mutex_init(left_fork, NULL))
 			return (false);
-		param->philo[i - 1]->right_fork = left_fork;
-		return (true);
+		param->philo[i]->right_fork = param->philo[i - 1]->left_fork;
 	}
 	else if (i == (param->nb_philo - 1))
 	{
 		if (pthread_mutex_init(left_fork, NULL))
 			return (false);
-		param->philo[0]->right_fork = left_fork;
-		return (true);
+		param->philo[i]->right_fork = param->philo[i - 1]->left_fork;
+		param->philo[0]->right_fork = param->philo[i]->left_fork;
 	}
-	return (false);
+	return (true);
 }
 
 bool	initialize_philos(t_param *param)
@@ -52,10 +55,16 @@ bool	initialize_philos(t_param *param)
 	while (i < param->nb_philo)
 	{
 		param->philo[i] = ft_calloc(1, sizeof(t_philo));
+		if (!param->philo[i])
+			return(false);
 		param->philo[i]->thread = ft_calloc(1, sizeof(pthread_t));
-		param->philo[i]->id = i;
+		if (!param->philo[i]->thread)
+			return(false);
+		param->philo[i]->id = i + 1;
 		param->philo[i]->eat_count = 0;
 		param->philo[i]->last_eat = 0;
+		param->philo[i]->eating_time = param->eating;
+		param->philo[i]->start_eat = 0;
 		param->philo[i]->death = &(param->death);
 		if (!initialize_forks(i, param))
 			return (false);
@@ -67,14 +76,28 @@ bool	initialize_philos(t_param *param)
 bool	thinking_currents(t_param *param)
 {
 	int	i;
-	pthread_t	*thread;
 
 	i = 0;
-	while (i < param->nb_philo)
+	while (param->philo[i])
 	{
-		thread = param->philo[i]->thread;
-		if (pthread_create(thread, NULL, &existential_crisis, (void *)param->philo[i]))
-			return (false);
+		if (ft_ispair(param->philo[i]->id))
+		{
+			if (pthread_create(param->philo[i]->thread, NULL, &existential_crisis2,\
+				(void *)param->philo[i]))
+				return (false);
+		}
+		else
+		{
+			if (pthread_create(param->philo[i]->thread, NULL, &existential_crisis,\
+				(void *)param->philo[i]))
+				return (false);
+		}
+		i++;
+	}
+	i = 0;
+	while (param->philo[i])
+	{
+		pthread_join(*(param->philo[i]->thread), NULL);
 		i++;
 	}
 	return (true);
