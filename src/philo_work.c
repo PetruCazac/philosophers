@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:06:50 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/18 11:59:51 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/18 15:14:21 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,19 @@ bool	think(t_philo *philo)
 
 bool	existence(t_philo *philo)
 {
+	int	i;
+	int	s;
+
+	i = 0;
+	s = 0;
+	s = track_time();
+	i = s - philo->start_eat;
 	pthread_mutex_lock(philo->dead_fork);
-	
+	if (i >= philo->dying_time)
+	{
+		printf("philo dead\n");
+		*(philo->death) = true;
+	}
 	if (*(philo->death))
 	{
 		pthread_mutex_unlock(philo->dead_fork);
