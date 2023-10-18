@@ -6,24 +6,34 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:06:50 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/17 17:03:57 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/18 11:59:51 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-bool	existence(bool *dead, pthread_mutex_t *dead_fork)
+bool	think(t_philo *philo)
 {
-	pthread_mutex_lock(dead_fork);
-	if (*dead)
+	if (existence(philo))
+		printf("%i %i is thinking\n", track_time(), philo->id);
+	else
+		return (false);
+	return (true);
+}
+
+bool	existence(t_philo *philo)
+{
+	pthread_mutex_lock(philo->dead_fork);
+	
+	if (*(philo->death))
 	{
-		pthread_mutex_unlock(dead_fork);
-		return (true);
+		pthread_mutex_unlock(philo->dead_fork);
+		return (false);
 	}
 	else
 	{
-		pthread_mutex_unlock(dead_fork);
-		return (false);
+		pthread_mutex_unlock(philo->dead_fork);
+		return (true);
 	}
 }
 
@@ -31,100 +41,70 @@ void	*existential_crisis(void *ptr)
 {
 	t_philo *philo;
 	bool	dead;
+	int		i;
 
+	i = 0;
 	dead = false;
 	philo = (t_philo *) ptr;
-	while (!dead)
-	{
-		philo->start_eat = track_time();
-		// Taking Forks
-		if (!dead && existence(philo->death, philo->dead_fork))
-		{
-			pthread_mutex_lock(philo->left_fork);
-			if (!dead && existence(philo->death, philo->dead_fork))
-				printf("%i %i has taken a fork", track_time(), philo->id);
-			else
-				dead = true;
-			pthread_mutex_lock(philo->right_fork);
-			if (!dead && existence(philo->death, philo->dead_fork))
-				printf("%i %i has taken a fork", track_time(), philo->id);
-			else
-				dead = true;
-		}
-		// Eating
-		if (!dead && existence(philo->death, philo->dead_fork))
-		{
-			printf("%i %i is eating", track_time(), philo->id);
-			philo->start_eat = track_time();
-			siesta(philo->eating_time);
-		}
-		else
-			dead = true;
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
-		// Sleeping
-		if (!dead && existence(philo->death, philo->dead_fork))
-		{
-			printf("%i %i is sleeping", track_time(), philo->id);
-			siesta(philo->sleeping_time);
-		}
-		else
-			dead = true;
-		// Thinking
-		if (!dead && existence(philo->death, philo->dead_fork))
-			printf("%i %i is thinking", track_time(), philo->id);
-		else
-			dead = true;
-	}
+	philo->start_eat = track_time();
+	if (philo->eat_count >= 0)
+		has_an_end(philo);
+	else
+		has_no_end(philo);
 	return (NULL);
 }
-void	*existential_crisis2(void *ptr)
-{
-	t_philo *philo;
-	bool	dead;
 
-	dead = false;
-	philo = (t_philo *) ptr;
-	while (!dead)
+int	has_an_end(t_philo *philo)
+{
+	int	i;
+
+	i = -1;
+	while(existence(philo) && ++i < philo->eat_count)
 	{
-		// Taking Forks
-		if (!dead && existence(philo->death, philo->dead_fork))
+		if (ft_even(philo->id))
 		{
-			pthread_mutex_lock(philo->right_fork);
-			if (!dead && existence(philo->death, philo->dead_fork))
-				printf("%i %i has taken a fork", track_time(), philo->id);
-			else
-				dead = true;
-			pthread_mutex_lock(philo->left_fork);
-			if (!dead && existence(philo->death, philo->dead_fork))
-				printf("%i %i has taken a fork", track_time(), philo->id);
-			else
-				dead = true;
-		}
-		// Eating
-		if (!dead && existence(philo->death, philo->dead_fork))
-		{
-			printf("%i %i is eating", track_time(), philo->id);
-			philo->start_eat = track_time();
-			siesta(philo->eating_time);
+			if (!take_righthanded_cuttlery(philo))
+				return (false);
 		}
 		else
-			dead = true;
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(philo->left_fork);
-		// Sleeping
-		if (!dead && existence(philo->death, philo->dead_fork))
 		{
-			printf("%i %i is sleeping", track_time(), philo->id);
-			siesta(philo->sleeping_time);
+			if (!take_lefthanded_cuttlery(philo))
+				return (false);
 		}
-		else
-			dead = true;
-		// Thinking
-		if (!dead && existence(philo->death, philo->dead_fork))
-			printf("%i %i is thinking", track_time(), philo->id);
-		else
-			dead = true;
+		if (!eat(philo))
+			return (false);
+		if (!put_back_cutlery(philo))
+			return (false);
+		if (!take_nap(philo))
+			return (false);
+		if (!think(philo))
+			return (false);
 	}
-	return (NULL);
+	return (0);
+}
+
+int	has_no_end(t_philo *philo)
+{
+	while (existence(philo))
+	{
+		if (ft_even(philo->id))
+		{
+			if (!take_righthanded_cuttlery(philo))
+				return (false);
+		}
+		else
+		{
+			if (!take_lefthanded_cuttlery(philo))
+				return (false);
+		}
+		if (!eat(philo))
+			return (false);
+		if (!put_back_cutlery(philo))
+			return (false);
+		if (!take_nap(philo))
+			return (false);
+		if (!think(philo))
+			return (false);
+	}
+	return (0);
 }

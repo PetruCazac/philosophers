@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/17 16:45:05 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/18 11:14:27 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	siesta(long time)
 	return (0);
 }
 
-bool	ft_ispair(int i)
+bool	ft_even(int i)
 {
 	if ((i % 2) == 0)
 		return (true);

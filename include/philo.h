@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/17 16:55:38 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/18 11:57:51 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_philo
 	long			sleeping_time;
 	long			dying_time;
 	long			start_eat;
-	useconds_t		last_eat;
+	long			last_eat;
 	bool			*death;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
@@ -55,8 +55,18 @@ typedef struct s_philo
 bool	check_args(int argc, char **argv);
 
 // philo_work.c
+bool	think(t_philo *philo);
+bool	existence(t_philo *philo);
 void	*existential_crisis(void *ptr);
-void	*existential_crisis2(void *ptr);
+int		has_an_end(t_philo *philo);
+int		has_no_end(t_philo *philo);
+
+// philo_utils.c
+bool	take_lefthanded_cuttlery(t_philo *philo);
+bool	take_righthanded_cuttlery(t_philo *philo);
+bool	eat(t_philo *philo);
+bool	put_back_cutlery(t_philo *philo);
+bool	take_nap(t_philo *philo);
 
 // struct_utils.c
 t_param	*fill_struct(char **argv);
@@ -67,13 +77,6 @@ int		track_time(void);
 void	free_philo(t_philo **philo);
 void	free_all(t_param *param);
 int		siesta(long time);
-bool	ft_ispair(int i);
-
-// printing functions
-int		ft_printf(const char *format, ...);
-int		ft_putstr_fd(char *s, int *count);
-int		ft_strlen_fd(const char *c);
-int		ft_putchar_fd(char c, int *counter);
-int		putbase(size_t input, char *base, size_t b_len, int *count);
+bool	ft_even(int i);
 
 #endif

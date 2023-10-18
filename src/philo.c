@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:15:58 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/17 16:24:17 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/18 11:30:13 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ bool	initialize_philos(t_param *param)
 		if (!param->philo[i]->thread)
 			return(false);
 		param->philo[i]->id = i + 1;
-		param->philo[i]->eat_count = 0;
+		param->philo[i]->eat_count = param->cicles;
 		param->philo[i]->last_eat = 0;
 		param->philo[i]->eating_time = param->eating;
 		param->philo[i]->start_eat = 0;
@@ -80,18 +80,9 @@ bool	thinking_currents(t_param *param)
 	i = 0;
 	while (param->philo[i])
 	{
-		if (ft_ispair(param->philo[i]->id))
-		{
-			if (pthread_create(param->philo[i]->thread, NULL, &existential_crisis2,\
-				(void *)param->philo[i]))
-				return (false);
-		}
-		else
-		{
-			if (pthread_create(param->philo[i]->thread, NULL, &existential_crisis,\
-				(void *)param->philo[i]))
-				return (false);
-		}
+		if (pthread_create(param->philo[i]->thread, NULL, &existential_crisis,\
+			(void *)param->philo[i]))
+			return (false);
 		i++;
 	}
 	i = 0;
