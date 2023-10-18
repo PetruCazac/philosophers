@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:06:50 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/18 15:14:21 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/18 18:32:11 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	think(t_philo *philo)
 {
 	if (existence(philo))
-		printf("%i %i is thinking\n", track_time(), philo->id);
+		printf("%li %i is thinking\n", track_time() - philo->start_time, philo->id);
 	else
 		return (false);
 	return (true);
@@ -58,6 +58,7 @@ void	*existential_crisis(void *ptr)
 	dead = false;
 	philo = (t_philo *) ptr;
 	philo->start_eat = track_time();
+	philo->start_time = track_time();
 	if (philo->eat_count >= 0)
 		has_an_end(philo);
 	else

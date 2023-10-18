@@ -53,3 +53,5 @@ dkms.conf
 philo
 libft
 *.json
+socrates
+out

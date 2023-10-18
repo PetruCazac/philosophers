@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/18 11:57:51 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/18 18:04:27 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_philo
 {
 	pthread_t		*thread;
 	int				id;
+	long			start_time;
 	long			eat_count;
 	long			eating_time;
 	long			sleeping_time;
@@ -73,7 +74,7 @@ t_param	*fill_struct(char **argv);
 
 // utils.c
 void	*ft_calloc(size_t count, size_t size);
-int		track_time(void);
+long	track_time(void);
 void	free_philo(t_philo **philo);
 void	free_all(t_param *param);
 int		siesta(long time);

@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/18 11:14:27 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/18 18:12:25 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	siesta(long time)
 {
-	int	i;
+	long	i;
 
 	i = 0;
-	i = time / 1000;
+	i = time * 1000;
 	usleep(i);
 	return (0);
 }
@@ -30,7 +30,7 @@ bool	ft_even(int i)
 		return (false);
 }
 
-int	track_time(void)
+long	track_time(void)
 {
 	struct timeval	tp;
 	struct timezone	tzp;
@@ -39,7 +39,7 @@ int	track_time(void)
 	time = 0;
 	if (gettimeofday(&tp, &tzp) < 0)
 		printf("gettimeofday error");
-	time = tp.tv_sec / 100 + tp.tv_usec * 1000;
+	time = tp.tv_sec * 1000 + tp.tv_usec / 1000;
 	return (time);
 }
 

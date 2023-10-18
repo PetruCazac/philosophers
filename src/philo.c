@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:15:58 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/18 15:10:54 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/18 18:04:52 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,10 @@ bool	initialize_philos(t_param *param)
 		param->philo[i]->id = i + 1;
 		param->philo[i]->eat_count = param->cicles;
 		param->philo[i]->last_eat = 0;
-		param->philo[i]->eating_time = param->eating;
+		param->philo[i]->start_time = 0;
 		param->philo[i]->dying_time = param->die;
+		param->philo[i]->eating_time = param->eating;
+		param->philo[i]->sleeping_time = param->sleeping;
 		param->philo[i]->start_eat = 0;
 		param->philo[i]->death = &(param->death);
 		if (!initialize_forks(i, param))
