@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 10:15:00 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/18 18:07:29 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/19 08:11:32 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ bool	eat(t_philo *philo)
 	{
 		printf("%li %i is eating\n", track_time() - philo->start_time, philo->id);
 		philo->start_eat = track_time();
-		siesta(philo->eating_time);
+		siesta(philo, philo->eating_time);
 	}
 	else
 		return (false);
@@ -73,7 +73,7 @@ bool	take_nap(t_philo *philo)
 	if (existence(philo))
 	{
 		printf("%li %i is sleeping\n", track_time() - philo->start_time, philo->id);
-		siesta(philo->sleeping_time);
+		siesta(philo, philo->sleeping_time);
 	}
 	else
 		return (false);

@@ -6,19 +6,47 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/18 18:12:25 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/19 10:40:45 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-int	siesta(long time)
+/// @brief This function checks is a philosopher has died without changing the value
+/// @param philo Pointer to the philosopher structure
+/// @return false if philosopher is alive, true if is dead
+bool	if_dead(t_philo *philo)
+{
+	pthread_mutex_lock(philo->dead_fork);
+	if (*(philo->death))
+	{
+		pthread_mutex_unlock(philo->dead_fork);
+		return (false);
+	}
+	else
+	{
+		pthread_mutex_unlock(philo->dead_fork);
+		return (true);
+	}
+}
+
+
+int	siesta(t_philo *philo, long time)
 {
 	long	i;
 
 	i = 0;
 	i = time * 1000;
-	usleep(i);
+	while (i > 0)
+	{
+		usleep(100);
+		i = i - 100;
+		if (!if_dead(philo))
+		{
+			printf("smth\n");
+			break ;
+		}
+	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:06:50 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/18 19:39:44 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/19 08:14:31 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ bool	think(t_philo *philo)
 		return (false);
 	return (true);
 }
-
+/// @brief This function checks is a philosopher has died
+/// @param philo Pointer to the philosopher structure
+/// @return false if philosopher is alive, true if is dead
 bool	existence(t_philo *philo)
 {
-	int			i;
-	int			s;
+	int	i;
+	int	s;
 
 	i = 0;
 	s = 0;
@@ -36,6 +38,7 @@ bool	existence(t_philo *philo)
 		if (*(philo->death) == false)
 			printf("%li %i died\n", track_time() - philo->start_time, philo->id);
 		*(philo->death) = true;
+		return (true);
 	}
 	if (*(philo->death))
 	{
