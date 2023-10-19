@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/19 08:11:10 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/19 16:30:03 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_param
 	long	start_time;
 	bool	death;
 	t_philo	**philo;
+	pthread_mutex_t	*dead_fork;
 }			t_param;
 
 typedef struct s_philo
@@ -63,10 +64,9 @@ int		has_an_end(t_philo *philo);
 int		has_no_end(t_philo *philo);
 
 // philo_utils.c
-bool	take_lefthanded_cuttlery(t_philo *philo);
-bool	take_righthanded_cuttlery(t_philo *philo);
+bool	take_cuttlery(t_philo *philo, bool even);
 bool	eat(t_philo *philo);
-bool	put_back_cutlery(t_philo *philo);
+bool	put_back_cutlery(t_philo *philo, bool even);
 bool	take_nap(t_philo *philo);
 
 // struct_utils.c
@@ -77,7 +77,7 @@ void	*ft_calloc(size_t count, size_t size);
 long	track_time(void);
 void	free_philo(t_philo **philo);
 void	free_all(t_param *param);
-int		siesta(t_philo *philo, long time);
+int		siesta(long time);
 bool	ft_even(int i);
 
 #endif

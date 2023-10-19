@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:06:50 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/19 08:14:31 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/19 17:29:43 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	think(t_philo *philo)
 }
 /// @brief This function checks is a philosopher has died
 /// @param philo Pointer to the philosopher structure
-/// @return false if philosopher is alive, true if is dead
+/// @return false if philosopher is dead, true if is alive
 bool	existence(t_philo *philo)
 {
 	int	i;
@@ -33,23 +33,21 @@ bool	existence(t_philo *philo)
 	s = track_time();
 	i = s - philo->start_eat;
 	pthread_mutex_lock(philo->dead_fork);
-	if (i >= philo->dying_time)
+	if (*(philo->death))
+		pthread_mutex_unlock(philo->dead_fork);
+	else if (i >= philo->dying_time)
 	{
 		if (*(philo->death) == false)
 			printf("%li %i died\n", track_time() - philo->start_time, philo->id);
 		*(philo->death) = true;
-		return (true);
-	}
-	if (*(philo->death))
-	{
 		pthread_mutex_unlock(philo->dead_fork);
-		return (false);
 	}
 	else
 	{
 		pthread_mutex_unlock(philo->dead_fork);
 		return (true);
 	}
+		return (false);
 }
 
 void	*existential_crisis(void *ptr)
@@ -68,28 +66,24 @@ void	*existential_crisis(void *ptr)
 
 int	has_an_end(t_philo *philo)
 {
-	int	i;
+	int		i;
+	bool	even;
 
 	i = -1;
+	even = ft_even(philo->id);
+	if (even)
+		siesta(philo->eating_time/4);
 	while(existence(philo) && ++i < philo->eat_count)
 	{
-		if (ft_even(philo->id))
-		{
-			if (!take_righthanded_cuttlery(philo))
-				return (false);
-		}
-		else
-		{
-			if (!take_lefthanded_cuttlery(philo))
-				return (false);
-		}
+		if (!think(philo))
+			return (false);
+		if (!take_cuttlery(philo, even))
+			return (false);
 		if (!eat(philo))
 			return (false);
-		if (!put_back_cutlery(philo))
+		if (!put_back_cutlery(philo, even))
 			return (false);
 		if (!take_nap(philo))
-			return (false);
-		if (!think(philo))
 			return (false);
 	}
 	return (0);
@@ -97,25 +91,26 @@ int	has_an_end(t_philo *philo)
 
 int	has_no_end(t_philo *philo)
 {
+	bool	even;
+	int		i;
+
+	i = 0;
+	even = ft_even(philo->id);
+	philo->start_eat = track_time();
+	think(philo);
+	if (philo->id == 3 || even)
+		siesta(philo->eating_time/2);
 	while (existence(philo))
 	{
-		if (ft_even(philo->id))
-		{
-			if (!take_righthanded_cuttlery(philo))
-				return (false);
-		}
-		else
-		{
-			if (!take_lefthanded_cuttlery(philo))
-				return (false);
-		}
+		if (i++ != 0 && !think(philo))
+			return (false);
+		if (!take_cuttlery(philo, even))
+			return (false);
 		if (!eat(philo))
 			return (false);
-		if (!put_back_cutlery(philo))
+		if (!put_back_cutlery(philo, even))
 			return (false);
 		if (!take_nap(philo))
-			return (false);
-		if (!think(philo))
 			return (false);
 	}
 	return (0);

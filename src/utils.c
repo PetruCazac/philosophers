@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/19 10:40:45 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/19 13:40:44 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,19 @@ bool	if_dead(t_philo *philo)
 	}
 }
 
-
-int	siesta(t_philo *philo, long time)
+int	siesta(long time)
 {
 	long	i;
+	long	current_time;
+	long	now;
 
-	i = 0;
-	i = time * 1000;
-	while (i > 0)
+	i = time;
+	current_time = track_time();
+	now = track_time();
+	while (now < current_time + time)
 	{
 		usleep(100);
-		i = i - 100;
-		if (!if_dead(philo))
-		{
-			printf("smth\n");
-			break ;
-		}
+		now = track_time();
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:15:58 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/18 18:04:52 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/19 16:19:19 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ bool	initialize_forks(int i, t_param *param)
 	param->philo[i]->left_fork = left_fork;
 	if (!param->philo[i]->left_fork)
 		return(false);
-	param->philo[i]->dead_fork = ft_calloc(1, sizeof(pthread_mutex_t));
-	if (!param->philo[i]->dead_fork)
-		return(false);
+	param->philo[i]->dead_fork = param->dead_fork;
 	if (i == 0)
 	{
 		if (pthread_mutex_init(left_fork, NULL))
@@ -112,8 +110,3 @@ int		main(int argc, char **argv)
 	// free_all(param);
 	return (0);
 }
-
-// usleep, gettimeofday, pthread_create,
-// pthread_detach, pthread_join, pthread_mutex_init,
-// pthread_mutex_destroy, pthread_mutex_lock,
-// pthread_mutex_unlock
