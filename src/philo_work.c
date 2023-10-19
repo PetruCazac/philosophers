@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:06:50 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/19 17:29:43 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/19 18:43:33 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,15 @@ int	has_an_end(t_philo *philo)
 
 	i = -1;
 	even = ft_even(philo->id);
-	if (even)
-		siesta(philo->eating_time/4);
+	philo->start_eat = track_time();
+	think(philo);
+	if (!even)
+		siesta(philo->eating_time/10);
+	if (philo->id == 1)
+		siesta(philo->eating_time/10);
 	while(existence(philo) && ++i < philo->eat_count)
 	{
-		if (!think(philo))
+		if (i != 0 && !think(philo))
 			return (false);
 		if (!take_cuttlery(philo, even))
 			return (false);
@@ -98,8 +102,10 @@ int	has_no_end(t_philo *philo)
 	even = ft_even(philo->id);
 	philo->start_eat = track_time();
 	think(philo);
-	if (philo->id == 3 || even)
-		siesta(philo->eating_time/2);
+	if (even ||  )
+		siesta(philo->eating_time/20);
+	if (philo->id == 1)
+		siesta(20);
 	while (existence(philo))
 	{
 		if (i++ != 0 && !think(philo))
