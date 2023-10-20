@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/19 16:30:03 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/20 13:31:37 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	*ft_calloc(size_t count, size_t size);
 long	track_time(void);
 void	free_philo(t_philo **philo);
 void	free_all(t_param *param);
-int		siesta(long time);
+bool	siesta(t_philo *philo, long time);
 bool	ft_even(int i);
 
 #endif

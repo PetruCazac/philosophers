@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/19 13:40:44 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/20 11:31:13 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool	if_dead(t_philo *philo)
 	}
 }
 
-int	siesta(long time)
+bool	siesta(t_philo *philo, long time)
 {
 	long	i;
 	long	current_time;
@@ -43,8 +43,10 @@ int	siesta(long time)
 	{
 		usleep(100);
 		now = track_time();
+		if (!existence(philo))
+			return (false);
 	}
-	return (0);
+	return (true);
 }
 
 bool	ft_even(int i)
@@ -96,18 +98,13 @@ void	free_philo(t_philo **philo)
 	{
 		if (philo[i]->thread)
 		{
-			free(philo[i]->thread);
+			pthread_mutex_destroy(philo[i]->thread);
 			philo[i]->thread = NULL;
 		}
 		if (philo[i]->left_fork)
 		{
-			free(philo[i]->left_fork);
+			pthread_mutex_destroy(philo[i]->left_fork);
 			philo[i]->left_fork = NULL;
-		}
-		if (philo[i]->right_fork)
-		{
-			free(philo[i]->right_fork);
-			philo[i]->right_fork = NULL;
 		}
 		free(philo[i]);
 		i++;

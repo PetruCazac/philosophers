@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:06:50 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/19 18:43:33 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/20 09:17:42 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ int	has_an_end(t_philo *philo)
 	philo->start_eat = track_time();
 	think(philo);
 	if (!even)
-		siesta(philo->eating_time/10);
-	if (philo->id == 1)
-		siesta(philo->eating_time/10);
+		siesta(philo, philo->eating_time/10);
+	if (philo->id == 3)
+		siesta(philo, philo->eating_time/10);
 	while(existence(philo) && ++i < philo->eat_count)
 	{
 		if (i != 0 && !think(philo))
@@ -102,10 +102,10 @@ int	has_no_end(t_philo *philo)
 	even = ft_even(philo->id);
 	philo->start_eat = track_time();
 	think(philo);
-	if (even ||  )
-		siesta(philo->eating_time/20);
-	if (philo->id == 1)
-		siesta(20);
+	if (even)
+		siesta(philo, philo->eating_time + 10);
+	if (philo->id == 3)
+		siesta(philo, 20);
 	while (existence(philo))
 	{
 		if (i++ != 0 && !think(philo))
