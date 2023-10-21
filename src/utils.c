@@ -6,11 +6,18 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/20 11:31:13 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/21 21:19:44 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+
+void	safe_print(char *str, t_philo *philo)
+{
+	pthread_mutex_lock(philo->print_fork);
+	printf("%li %i %s\n", track_time() - philo->start_time, philo->id, str);
+	pthread_mutex_unlock(philo->print_fork);
+}
 
 /// @brief This function checks is a philosopher has died without changing the value
 /// @param philo Pointer to the philosopher structure
@@ -32,11 +39,9 @@ bool	if_dead(t_philo *philo)
 
 bool	siesta(t_philo *philo, long time)
 {
-	long	i;
 	long	current_time;
 	long	now;
 
-	i = time;
 	current_time = track_time();
 	now = track_time();
 	while (now < current_time + time)
@@ -98,7 +103,7 @@ void	free_philo(t_philo **philo)
 	{
 		if (philo[i]->thread)
 		{
-			pthread_mutex_destroy(philo[i]->thread);
+			free(philo[i]->thread);
 			philo[i]->thread = NULL;
 		}
 		if (philo[i]->left_fork)

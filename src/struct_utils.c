@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 09:13:08 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/19 16:08:30 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/21 21:46:09 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,12 @@ t_param	*fill_struct(char **argv)
 	param->start_time = 0;
 	param->dead_fork = ft_calloc(1, sizeof(pthread_mutex_t));
 	if (!param->dead_fork)
+		return(false);
+	param->print_fork = ft_calloc(1, sizeof(pthread_mutex_t));
+	if (!param->print_fork)
+		return(false);
+	param->dying = ft_calloc(1, sizeof(pthread_t));
+	if (!param->dying)
 		return(false);
 	return (param);
 }

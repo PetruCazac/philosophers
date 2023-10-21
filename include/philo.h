@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/20 13:31:37 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/21 22:21:20 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct s_param
 	long	start_time;
 	bool	death;
 	t_philo	**philo;
+	pthread_t	*dying;
+	pthread_mutex_t	*print_fork;
 	pthread_mutex_t	*dead_fork;
 }			t_param;
 
@@ -51,10 +53,16 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*dead_fork;
+	pthread_mutex_t	*print_fork;
+	pthread_mutex_t	*time_fork;
 }					t_philo;
 
 // init_check.c
 bool	check_args(int argc, char **argv);
+
+// initialize_philo.c
+bool	initialize_forks(int i, t_param *param);
+bool	initialize_philos(t_param *param);
 
 // philo_work.c
 bool	think(t_philo *philo);
@@ -79,5 +87,10 @@ void	free_philo(t_philo **philo);
 void	free_all(t_param *param);
 bool	siesta(t_philo *philo, long time);
 bool	ft_even(int i);
+void	safe_print(char *str, t_philo *philo);
+
+// truth.c
+void	*truth(void *param);
+long	get_time(t_philo *philo);
 
 #endif
