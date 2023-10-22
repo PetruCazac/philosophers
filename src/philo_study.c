@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 08:52:29 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/21 08:54:50 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/22 22:11:18 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ bool	take_cuttlery(t_philo *philo, bool even)
 	{
 		if (!even)
 		{
+			if (!philo->right_fork)
+				return (false);
 			pthread_mutex_lock(philo->right_fork);
 			safe_print("has taken a fork", philo);
 			if (existence(philo))
@@ -86,6 +88,8 @@ bool	put_back_cutlery(t_philo *philo, bool even)
 {
 	if (!even)
 	{
+		if (!philo->right_fork)
+			return (false);
 		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(philo->left_fork);
 	}

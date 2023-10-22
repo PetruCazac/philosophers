@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/21 21:19:44 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/22 22:08:06 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,22 +108,25 @@ void	free_philo(t_philo **philo)
 		}
 		if (philo[i]->left_fork)
 		{
-			pthread_mutex_destroy(philo[i]->left_fork);
+			free(philo[i]->left_fork);
+			free(philo[i]->time_fork);
 			philo[i]->left_fork = NULL;
 		}
 		free(philo[i]);
 		i++;
 	}
+	free(philo);
 	return ;
 }
 
 void	free_all(t_param *param)
 {
+	printf("freeingstuff\n");
 	if (param->philo)
-	{
 		free_philo(param->philo);
-		param->philo = NULL;
-	}
+	free(param->print_fork);
+	free(param->dead_fork);
+	free(param->dying);
 	free(param);
 	return ;
 }

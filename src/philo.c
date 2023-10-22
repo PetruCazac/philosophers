@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:15:58 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/21 22:21:16 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/22 21:54:34 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ int		main(int argc, char **argv)
 	param = fill_struct(argv);
 	if (!initialize_philos(param))
 		free_all(param);
-	if (!thinking_currents(param))
-		free_all(param);
-	// free_all(param);
+	thinking_currents(param);
+	free_all(param);
 	return (0);
 }
