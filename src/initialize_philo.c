@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 08:48:36 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/21 08:51:17 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/23 14:52:47 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,14 @@
 bool	initialize_forks(int i, t_param *param)
 {
 	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*time_fork;
 
-	time_fork = ft_calloc(1, sizeof(pthread_mutex_t));
-	param->philo[i]->time_fork = time_fork;
-	if (!param->philo[i]->time_fork)
-		return(false);
 	left_fork = ft_calloc(1, sizeof(pthread_mutex_t));
 	param->philo[i]->left_fork = left_fork;
 	if (!param->philo[i]->left_fork)
 		return(false);
 	param->philo[i]->dead_fork = param->dead_fork;
 	param->philo[i]->print_fork = param->print_fork;
+	param->philo[i]->time_fork = param->time_fork;
 	if (i == 0)
 	{
 		if (pthread_mutex_init(left_fork, NULL))
@@ -66,6 +62,7 @@ bool	initialize_philos(t_param *param)
 			return(false);
 		param->philo[i]->id = i + 1;
 		param->philo[i]->eat_count = param->cicles;
+		param->philo[i]->eat_cycle = -1;
 		param->philo[i]->last_eat = 0;
 		param->philo[i]->start_time = 0;
 		param->philo[i]->dying_time = param->die;

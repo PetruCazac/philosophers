@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/21 22:21:20 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/23 14:41:15 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_param
 	pthread_t	*dying;
 	pthread_mutex_t	*print_fork;
 	pthread_mutex_t	*dead_fork;
+	pthread_mutex_t	*time_fork;
 }			t_param;
 
 typedef struct s_philo
@@ -44,6 +45,7 @@ typedef struct s_philo
 	int				id;
 	long			start_time;
 	long			eat_count;
+	long			eat_cycle;
 	long			eating_time;
 	long			sleeping_time;
 	long			dying_time;
@@ -92,5 +94,6 @@ void	safe_print(char *str, t_philo *philo);
 // truth.c
 void	*truth(void *param);
 long	get_time(t_philo *philo);
+long	safe_time(t_philo *philo);
 
 #endif

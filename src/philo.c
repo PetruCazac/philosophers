@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:15:58 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/22 21:54:34 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/23 14:55:15 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ bool	thinking_currents(t_param *param)
 	i = 0;
 	while (param->philo[i])
 	{
+		printf("Printf %i fork is %p\n", param->philo[i]->id, *param->philo[i]->print_fork);
 		if (pthread_create(param->philo[i]->thread, NULL, &existential_crisis,\
 			(void *)param->philo[i]))
 			return (false);

@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/22 22:08:06 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/23 14:44:41 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	safe_print(char *str, t_philo *philo)
 {
 	pthread_mutex_lock(philo->print_fork);
-	printf("%li %i %s\n", track_time() - philo->start_time, philo->id, str);
+	if (existence(philo))
+		printf("%li %i %s\n", safe_time(philo) - philo->start_time, philo->id, str);
 	pthread_mutex_unlock(philo->print_fork);
 }
 
@@ -42,12 +43,12 @@ bool	siesta(t_philo *philo, long time)
 	long	current_time;
 	long	now;
 
-	current_time = track_time();
-	now = track_time();
+	current_time = safe_time(philo);
+	now = safe_time(philo);
 	while (now < current_time + time)
 	{
 		usleep(100);
-		now = track_time();
+		now = safe_time(philo);
 		if (!existence(philo))
 			return (false);
 	}
@@ -69,6 +70,7 @@ long	track_time(void)
 	long			time;
 
 	time = 0;
+	
 	if (gettimeofday(&tp, &tzp) < 0)
 		printf("gettimeofday error");
 	time = tp.tv_sec * 1000 + tp.tv_usec / 1000;
@@ -109,7 +111,6 @@ void	free_philo(t_philo **philo)
 		if (philo[i]->left_fork)
 		{
 			free(philo[i]->left_fork);
-			free(philo[i]->time_fork);
 			philo[i]->left_fork = NULL;
 		}
 		free(philo[i]);
@@ -121,9 +122,10 @@ void	free_philo(t_philo **philo)
 
 void	free_all(t_param *param)
 {
-	printf("freeingstuff\n");
+	// printf("freeingstuff\n");
 	if (param->philo)
 		free_philo(param->philo);
+	free(param->time_fork);
 	free(param->print_fork);
 	free(param->dead_fork);
 	free(param->dying);
