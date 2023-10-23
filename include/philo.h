@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/23 14:41:15 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/23 17:34:43 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,23 @@
 # include <stdarg.h>
 typedef struct s_philo t_philo;
 
+typedef struct s_mutex
+{
+	long			val;
+	pthread_mutex_t	*left_fork;
+}					t_mutex;
+
 typedef struct s_param
 {
-	int		nb_philo;
-	long	die;
-	long	eating;
-	long	sleeping;
-	long	cicles;
-	long	start_time;
-	bool	death;
-	t_philo	**philo;
-	pthread_t	*dying;
+	int				nb_philo;
+	long			die;
+	long			eating;
+	long			sleeping;
+	long			cicles;
+	long			start_time;
+	bool			death;
+	t_philo			**philo;
+	pthread_t		*dying;
 	pthread_mutex_t	*print_fork;
 	pthread_mutex_t	*dead_fork;
 	pthread_mutex_t	*time_fork;
@@ -48,7 +54,6 @@ typedef struct s_philo
 	long			eat_cycle;
 	long			eating_time;
 	long			sleeping_time;
-	long			dying_time;
 	long			start_eat;
 	long			last_eat;
 	bool			*death;
