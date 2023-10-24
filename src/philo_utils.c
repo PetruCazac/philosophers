@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 10:15:00 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/24 13:11:36 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/24 15:33:24 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	sad_life(t_philo *philo, bool even)
 {
-	if (++philo->eat_cycle.val != 0 && !think(philo))
+	if (++philo->eat_cycle->val != 0 && !think(philo))
 		return (false);
 	if (!take_cuttlery(philo, even))
 		return (false);
@@ -32,16 +32,16 @@ void	*existential_crisis(void *ptr)
 	bool	even;
 
 	philo = (t_philo *) ptr;
-	even = ft_even(philo->id.val);
-	philo->start_eat.val = track_time();
-	philo->start_time.val = track_time();
+	even = ft_even(philo->id->val);
+	philo->start_eat->val = track_time();
+	philo->start_time->val = track_time();
 	think(philo);
 	if (even)
 	{
-		siesta(philo, &philo->eating_time);
+		siesta(philo, philo->eating_time);
 		usleep(2);
 	}
-	if (philo->id.val == 3)
+	if (philo->id->val == 3)
 		usleep(4);
 	while (existence(philo))
 	{

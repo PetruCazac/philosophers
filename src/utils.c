@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/24 14:39:45 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/24 15:30:05 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	safe_print(char *str, t_philo *philo)
 {
 	pthread_mutex_lock(philo->print_fork);
 	if (existence(philo))
-		printf("%li %li %s\n", track_time() - philo->start_time.val, philo->id.val, str);
+		printf("%li %li %s\n", track_time() - philo->start_time->val, philo->id->val, str);
 	pthread_mutex_unlock(philo->print_fork);
 }
 
