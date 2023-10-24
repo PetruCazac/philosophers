@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 10:15:00 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/23 14:40:20 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/23 21:17:45 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,17 @@ void	*existential_crisis(void *ptr)
 	t_philo *philo;
 
 	philo = (t_philo *) ptr;
-	philo->start_eat = safe_time(philo);
+	pthread_mutex_lock(philo->start_eat.fork);
+	philo->start_eat.val = track_time();
+	pthread_mutex_lock(philo->start_eat.fork);
 	philo->start_time = safe_time(philo);
 	if (philo->eat_count >= 0)
 		has_an_end(philo);
 	else
 		has_no_end(philo);
 	return (NULL);
-}
 
+}
 /// @brief This function checks is a philosopher has died
 /// @param philo Pointer to the philosopher structure
 /// @return false if philosopher is dead, true if is alive

@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 18:00:19 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/23 17:24:01 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/23 21:14:31 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ long	safe_time(t_philo *philo)
 	long	i;
 
 	i = 0;
-	pthread_mutex_lock(philo->time_fork);
 	i = track_time();
-	pthread_mutex_unlock(philo->time_fork);
 	return (i);
 }

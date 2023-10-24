@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/23 14:44:41 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/23 21:15:53 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ bool	siesta(t_philo *philo, long time)
 	long	current_time;
 	long	now;
 
-	current_time = safe_time(philo);
-	now = safe_time(philo);
+	current_time = track_time();
+	now = current_time;
 	while (now < current_time + time)
 	{
 		usleep(100);
-		now = safe_time(philo);
+		now = track_time();
 		if (!existence(philo))
 			return (false);
 	}

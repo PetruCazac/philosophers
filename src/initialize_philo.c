@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 08:48:36 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/23 17:34:49 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/23 21:19:43 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,26 @@ bool	initialize_philos(t_param *param)
 		param->philo[i] = ft_calloc(1, sizeof(t_philo));
 		if (!param->philo[i])
 			return(false);
+		param->philo[i] = (t_philo *) {NULL};
 		param->philo[i]->thread = ft_calloc(1, sizeof(pthread_t));
 		if (!param->philo[i]->thread)
 			return(false);
-		param->philo[i]->id = i + 1;
-		param->philo[i]->eat_count = param->cicles;
-		param->philo[i]->eat_cycle = -1;
-		param->philo[i]->last_eat = 0;
-		param->philo[i]->start_time = 0;
-		param->philo[i]->eating_time = param->eating;
-		param->philo[i]->sleeping_time = param->sleeping;
-		param->philo[i]->start_eat = 0;
+		initialize_t_mutex(param->philo[i]);
 		param->philo[i]->death = &(param->death);
+
 		if (!initialize_forks(i, param))
 			return (false);
 		i++;
 	}
 	return (true);
 }
+
+bool	
+		param->philo[i]->id.val = i + 1;
+		param->philo[i]->start_time.val = 0;
+		param->philo[i]->eat_count.val = param->cicles;
+		param->philo[i]->eat_cycle.val = -1;
+		param->philo[i]->eating_time.val = param->eating;
+		param->philo[i]->sleeping_time.val = param->sleeping;
+		param->philo[i]->start_eat.val = 0;
+		param->philo[i]->last_eat.val = 0;

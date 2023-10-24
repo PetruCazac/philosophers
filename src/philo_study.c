@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 08:52:29 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/23 14:42:50 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/23 21:14:00 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	take_nap(t_philo *philo)
 	if (existence(philo))
 	{
 		safe_print("is sleeping", philo);
-		if (!siesta(philo, philo->sleeping_time))
+		if (!siesta(philo))
 			return (false);
 		return (true);
 	}

@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/23 17:34:43 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/23 20:51:43 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_philo t_philo;
 typedef struct s_mutex
 {
 	long			val;
-	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*fork;
 }					t_mutex;
 
 typedef struct s_param
@@ -48,14 +48,14 @@ typedef struct s_param
 typedef struct s_philo
 {
 	pthread_t		*thread;
-	int				id;
-	long			start_time;
-	long			eat_count;
-	long			eat_cycle;
-	long			eating_time;
-	long			sleeping_time;
-	long			start_eat;
-	long			last_eat;
+	t_mutex			id;
+	t_mutex			start_time;
+	t_mutex			eat_count;
+	t_mutex			eat_cycle;
+	t_mutex			eating_time;
+	t_mutex			sleeping_time;
+	t_mutex			start_eat;
+	t_mutex			last_eat;
 	bool			*death;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
