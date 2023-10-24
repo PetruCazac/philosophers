@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 09:13:08 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/23 14:37:09 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/24 14:17:05 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ t_param	*fill_struct(char **argv)
 {
 	t_param	*param;
 
-	param = NULL;
 	param = ft_calloc(1, sizeof(t_param));
 	if (!param)
 		exit(1);
@@ -68,13 +67,11 @@ t_param	*fill_struct(char **argv)
 	param->die = ft_atoi(argv[2]);
 	param->eating = ft_atoi(argv[3]);
 	param->sleeping = ft_atoi(argv[4]);
-	param->sleeping = ft_atoi(argv[4]);
 	if (argv[5])
 		param->cicles = ft_atoi(argv[5]);
 	else
-		param->cicles = -1;
+		param->cicles = -2;
 	param->death = false;
-	param->start_time = 0;
 	param->dead_fork = ft_calloc(1, sizeof(pthread_mutex_t));
 	if (!param->dead_fork)
 		return(false);

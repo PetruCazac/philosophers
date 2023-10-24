@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/23 21:15:53 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/24 14:39:45 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,20 @@ void	safe_print(char *str, t_philo *philo)
 {
 	pthread_mutex_lock(philo->print_fork);
 	if (existence(philo))
-		printf("%li %i %s\n", safe_time(philo) - philo->start_time, philo->id, str);
+		printf("%li %li %s\n", track_time() - philo->start_time.val, philo->id.val, str);
 	pthread_mutex_unlock(philo->print_fork);
 }
 
-/// @brief This function checks is a philosopher has died without changing the value
-/// @param philo Pointer to the philosopher structure
-/// @return false if philosopher is alive, true if is dead
-bool	if_dead(t_philo *philo)
+bool	siesta(t_philo *philo, t_mutex *time)
 {
-	pthread_mutex_lock(philo->dead_fork);
-	if (*(philo->death))
-	{
-		pthread_mutex_unlock(philo->dead_fork);
-		return (false);
-	}
-	else
-	{
-		pthread_mutex_unlock(philo->dead_fork);
-		return (true);
-	}
-}
-
-bool	siesta(t_philo *philo, long time)
-{
-	long	current_time;
+	long	wakeup_time;
 	long	now;
 
-	current_time = track_time();
-	now = current_time;
-	while (now < current_time + time)
+	pthread_mutex_lock(time->fork);
+	wakeup_time = track_time() + time->val;
+	pthread_mutex_unlock(time->fork);
+	now = track_time();
+	while (now < wakeup_time)
 	{
 		usleep(100);
 		now = track_time();
@@ -55,7 +39,7 @@ bool	siesta(t_philo *philo, long time)
 	return (true);
 }
 
-bool	ft_even(int i)
+bool	ft_even(long i)
 {
 	if ((i % 2) == 0)
 		return (true);
@@ -103,15 +87,11 @@ void	free_philo(t_philo **philo)
 	i = 0;
 	while (philo[i])
 	{
-		if (philo[i]->thread)
-		{
-			free(philo[i]->thread);
-			philo[i]->thread = NULL;
-		}
 		if (philo[i]->left_fork)
 		{
+			pthread_mutex_destroy(philo[i]->left_fork);
 			free(philo[i]->left_fork);
-			philo[i]->left_fork = NULL;
+			free(philo[i]->thread);
 		}
 		free(philo[i]);
 		i++;
@@ -122,11 +102,13 @@ void	free_philo(t_philo **philo)
 
 void	free_all(t_param *param)
 {
-	// printf("freeingstuff\n");
 	if (param->philo)
 		free_philo(param->philo);
+	pthread_mutex_destroy(param->time_fork);
 	free(param->time_fork);
+	pthread_mutex_destroy(param->print_fork);
 	free(param->print_fork);
+	pthread_mutex_destroy(param->dead_fork);
 	free(param->dead_fork);
 	free(param->dying);
 	free(param);
