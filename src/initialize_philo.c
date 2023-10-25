@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 08:48:36 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 11:49:41 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/25 21:28:29 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,16 @@ bool	allocate_mutex(long val, t_mutex *fork)
 
 bool	initialize_values(t_param *param, long i)
 {
+	param->philo[i]->eat_count = 0;
+	param->philo[i]->full = false;
+	param->philo[i]->cicles = param->cicles;
+	param->philo[i]->eating_time = param->eating;
+	param->philo[i]->sleeping_time = param->sleeping;
 	if (!allocate_mutex(i + 1, &(param->philo[i]->id)))
 		return (false);
 	if (!allocate_mutex(0, &(param->philo[i]->start_time)))
 		return (false);
-	if (!allocate_mutex(0, &(param->philo[i]->eat_count)))
-		return (false);
 	if (!allocate_mutex(0, &(param->philo[i]->last_eat)))
-		return (false);
-	if (!allocate_mutex(param->eating, &(param->philo[i]->eating_time)))
-		return (false);
-	if (!allocate_mutex(param->sleeping, &(param->philo[i]->sleeping_time)))
 		return (false);
 	return (true);
 }

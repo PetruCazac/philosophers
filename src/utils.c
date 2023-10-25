@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 14:55:13 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/25 21:49:01 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	safe_print(char *str, t_philo *philo)
 {
-
 	pthread_mutex_lock(philo->print_fork);
 	if (existence(philo))
 		printf("%i %i %s\n", (int)(track_time() - philo->start_time.val), \
@@ -22,14 +21,12 @@ void	safe_print(char *str, t_philo *philo)
 	pthread_mutex_unlock(philo->print_fork);
 }
 
-bool	siesta(t_philo *philo, t_mutex time)
+bool	siesta(t_philo *philo, long time)
 {
 	long	wakeup_time;
 	long	now;
 
-	pthread_mutex_lock(&(time.fork));
-	wakeup_time = track_time() + time.val;
-	pthread_mutex_unlock(&(time.fork));
+	wakeup_time = track_time() + time;
 	now = track_time();
 	while (now < wakeup_time)
 	{
@@ -92,9 +89,6 @@ void	free_philo(t_philo **philo)
 			pthread_mutex_destroy(philo[i]->left_fork);
 			pthread_mutex_destroy(&(philo[i]->id.fork));
 			pthread_mutex_destroy(&(philo[i]->start_time.fork));
-			pthread_mutex_destroy(&(philo[i]->eat_count.fork));
-			pthread_mutex_destroy(&(philo[i]->eating_time.fork));
-			pthread_mutex_destroy(&(philo[i]->sleeping_time.fork));
 			pthread_mutex_destroy(&(philo[i]->last_eat.fork));
 			free(philo[i]->left_fork);
 			free(philo[i]->thread);

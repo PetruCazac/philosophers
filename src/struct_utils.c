@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 09:13:08 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 11:55:09 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/25 21:13:43 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,6 @@ t_param	*fill_struct(char **argv)
 	}
 	param->dying = ft_calloc(1, sizeof(pthread_t));
 	if (!param->dying)
-		return (false);
+		return(false);
 	return (param);
 }

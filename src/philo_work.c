@@ -6,15 +6,24 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 10:15:00 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 15:01:56 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/25 21:32:15 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
+void	set_flag(t_philo *philo)
+{
+	pthread_mutex_lock(philo->dead_fork);
+	philo->full = true;
+	pthread_mutex_unlock(philo->dead_fork);
+}
+
 bool	sad_life(t_philo *philo, bool even)
 {
-	if (philo->eat_count.val++ != 0 && !think(philo))
+	if (philo->eat_count == philo->cicles)
+		return (set_flag(philo), false);
+	if (philo->eat_count++ != 0 && !think(philo))
 		return (false);
 	if (!take_cuttlery(philo, even))
 		return (false);

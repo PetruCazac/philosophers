@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 17:58:29 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/25 21:29:02 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,15 @@ typedef struct s_param
 typedef struct s_philo
 {
 	pthread_t		*thread;
-	t_mutex			id;
-	t_mutex			start_time;
-	t_mutex			eat_count;
-	t_mutex			eating_time;
-	t_mutex			sleeping_time;
-	t_mutex			last_eat;
+	long			eat_count;
+	long			cicles;
+	long			eating_time;
+	long			sleeping_time;
+	bool			full;
 	bool			*death;
+	t_mutex			id;
+	t_mutex			last_eat;
+	t_mutex			start_time;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*dead_fork;
@@ -86,11 +88,10 @@ void	*ft_calloc(size_t count, size_t size);
 long	track_time(void);
 void	free_philo(t_philo **philo);
 void	free_all(t_param *param);
-bool	siesta(t_philo *philo, t_mutex time);
+bool	siesta(t_philo *philo, long time);
 bool	ft_even(long i);
 void	safe_print(char *str, t_philo *philo);
 // truth.c
 void	*truth(void *param);
-long	get_time(t_philo *philo);
 
 #endif
