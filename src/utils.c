@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/23 21:15:53 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/25 21:49:01 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,19 @@ void	safe_print(char *str, t_philo *philo)
 {
 	pthread_mutex_lock(philo->print_fork);
 	if (existence(philo))
-		printf("%li %i %s\n", safe_time(philo) - philo->start_time, philo->id, str);
+		printf("%i %i %s\n", (int)(track_time() - philo->start_time.val), \
+		(int)philo->id.val, str);
 	pthread_mutex_unlock(philo->print_fork);
-}
-
-/// @brief This function checks is a philosopher has died without changing the value
-/// @param philo Pointer to the philosopher structure
-/// @return false if philosopher is alive, true if is dead
-bool	if_dead(t_philo *philo)
-{
-	pthread_mutex_lock(philo->dead_fork);
-	if (*(philo->death))
-	{
-		pthread_mutex_unlock(philo->dead_fork);
-		return (false);
-	}
-	else
-	{
-		pthread_mutex_unlock(philo->dead_fork);
-		return (true);
-	}
 }
 
 bool	siesta(t_philo *philo, long time)
 {
-	long	current_time;
+	long	wakeup_time;
 	long	now;
 
-	current_time = track_time();
-	now = current_time;
-	while (now < current_time + time)
+	wakeup_time = track_time() + time;
+	now = track_time();
+	while (now < wakeup_time)
 	{
 		usleep(100);
 		now = track_time();
@@ -55,7 +38,7 @@ bool	siesta(t_philo *philo, long time)
 	return (true);
 }
 
-bool	ft_even(int i)
+bool	ft_even(long i)
 {
 	if ((i % 2) == 0)
 		return (true);
@@ -66,13 +49,11 @@ bool	ft_even(int i)
 long	track_time(void)
 {
 	struct timeval	tp;
-	struct timezone	tzp;
 	long			time;
 
 	time = 0;
-	
-	if (gettimeofday(&tp, &tzp) < 0)
-		printf("gettimeofday error");
+	if (gettimeofday(&tp, NULL) < 0)
+		write(1, "gettimeofday error\n", 19);
 	time = tp.tv_sec * 1000 + tp.tv_usec / 1000;
 	return (time);
 }
@@ -103,15 +84,14 @@ void	free_philo(t_philo **philo)
 	i = 0;
 	while (philo[i])
 	{
-		if (philo[i]->thread)
-		{
-			free(philo[i]->thread);
-			philo[i]->thread = NULL;
-		}
 		if (philo[i]->left_fork)
 		{
+			pthread_mutex_destroy(philo[i]->left_fork);
+			pthread_mutex_destroy(&(philo[i]->id.fork));
+			pthread_mutex_destroy(&(philo[i]->start_time.fork));
+			pthread_mutex_destroy(&(philo[i]->last_eat.fork));
 			free(philo[i]->left_fork);
-			philo[i]->left_fork = NULL;
+			free(philo[i]->thread);
 		}
 		free(philo[i]);
 		i++;
@@ -122,11 +102,13 @@ void	free_philo(t_philo **philo)
 
 void	free_all(t_param *param)
 {
-	// printf("freeingstuff\n");
 	if (param->philo)
 		free_philo(param->philo);
+	pthread_mutex_destroy(param->time_fork);
 	free(param->time_fork);
+	pthread_mutex_destroy(param->print_fork);
 	free(param->print_fork);
+	pthread_mutex_destroy(param->dead_fork);
 	free(param->dead_fork);
 	free(param->dying);
 	free(param);

@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 08:52:29 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/23 21:14:00 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/25 11:53:49 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	take_nap(t_philo *philo)
 	if (existence(philo))
 	{
 		safe_print("is sleeping", philo);
-		if (!siesta(philo))
+		if (!siesta(philo, philo->sleeping_time))
 			return (false);
 		return (true);
 	}
@@ -72,17 +72,17 @@ bool	eat(t_philo *philo)
 	if (existence(philo))
 	{
 		safe_print("is eating", philo);
-		philo->start_eat = safe_time(philo);
+		philo->last_eat.val = track_time();
 		if (!siesta(philo, philo->eating_time))
 		{
-			put_back_cutlery(philo, ft_even(philo->id));
-			return(false);
+			put_back_cutlery(philo, ft_even(philo->id.val));
+			return (false);
 		}
 		return (true);
 	}
 	else
 	{
-		put_back_cutlery(philo, ft_even(philo->id));
+		put_back_cutlery(philo, ft_even(philo->id.val));
 		return (false);
 	}
 }
@@ -93,16 +93,12 @@ bool	put_back_cutlery(t_philo *philo, bool even)
 	{
 		if (!philo->right_fork)
 			return (false);
-		safe_print("has given a fork", philo);
 		pthread_mutex_unlock(philo->right_fork);
-		safe_print("has given a fork", philo);
 		pthread_mutex_unlock(philo->left_fork);
 	}
 	if (even)
 	{
-		safe_print("has given a fork", philo);
 		pthread_mutex_unlock(philo->left_fork);
-		safe_print("has given a fork", philo);
 		pthread_mutex_unlock(philo->right_fork);
 	}
 	return (true);

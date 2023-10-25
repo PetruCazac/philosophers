@@ -6,62 +6,59 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 18:00:19 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/23 21:14:31 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/25 21:43:37 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void	*truth(void *param)
+bool	check_fullness(t_philo *philo)
+{
+	pthread_mutex_lock(philo->dead_fork);
+	if (philo->full == true)
+	{
+		pthread_mutex_unlock(philo->dead_fork);
+		return (true);
+	}
+	pthread_mutex_unlock(philo->dead_fork);
+	safe_print("dead", philo);
+	return (false);
+}
+
+bool	check_dead(t_param *param)
 {
 	int		i;
-	int		count;
-	t_param	*params;
+	long	starve;
+	long	last_eat;
 
-	params = (t_param *) param;
+	pthread_mutex_lock(param->time_fork);
+	starve = param->die;
+	pthread_mutex_unlock(param->time_fork);
 	i = 0;
-	count = 0;
-	while (!params->death)
+	while (param->philo[i])
 	{
-		i = 0;
-		while (params->philo[i])
+		pthread_mutex_lock(&(param->philo[i]->last_eat.fork));
+		last_eat = param->philo[i]->last_eat.val;
+		pthread_mutex_unlock(&(param->philo[i]->last_eat.fork));
+		if (track_time() - last_eat > starve)
 		{
-			if (params->cicles == params->philo[i]->eat_count)
-				count++;
-			else if (get_time(params->philo[i]) > params->die)
-			{
-				pthread_mutex_lock(params->dead_fork);
-				safe_print("died", params->philo[i]);
-				params->death = true;
-				pthread_mutex_unlock(params->dead_fork);
-			}
-			i++;
+			check_fullness(param->philo[i]);
+			pthread_mutex_lock(param->dead_fork);
+			param->death = true;
+			pthread_mutex_unlock(param->dead_fork);
+			return (true);
 		}
-		if (count == params->nb_philo)
-		{
-			pthread_mutex_lock(params->dead_fork);
-			params->death = true;
-			pthread_mutex_unlock(params->dead_fork);
-		}
-		usleep(100);
+		i++;
 	}
+	return (false);
+}
+
+void	*truth(void *params)
+{
+	bool	dead;
+
+	dead = false;
+	while (!dead)
+		dead = check_dead((t_param *)params);
 	return (NULL);
-}
-
-long	get_time(t_philo *philo)
-{
-	long	i;
-
-	i = 0;
-	i = safe_time(philo) - philo->start_eat;
-	return (i);
-}
-
-long	safe_time(t_philo *philo)
-{
-	long	i;
-
-	i = 0;
-	i = track_time();
-	return (i);
 }
