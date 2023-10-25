@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 21:29:02 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/25 22:23:12 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,10 @@ bool	existence(t_philo *philo);
 void	*existential_crisis(void *ptr);
 
 // philo_utils.c
+long	get_val(t_mutex *data);
+void	give_time(t_mutex *data);
+
+// philo_study.c
 bool	take_cuttlery(t_philo *philo, bool even);
 bool	eat(t_philo *philo);
 bool	put_back_cutlery(t_philo *philo, bool even);

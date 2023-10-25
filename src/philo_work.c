@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 10:15:00 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 21:32:15 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/25 22:24:10 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,14 @@ void	*existential_crisis(void *ptr)
 {
 	t_philo	*philo;
 	bool	even;
+	int		id;
 
 	philo = (t_philo *) ptr;
-	even = ft_even(philo->id.val);
-	philo->last_eat.val = track_time();
-	philo->start_time.val = track_time();
-	think(philo);
+	id = get_val(&(philo->id));
+	even = ft_even(id);
+	give_time(&(philo->last_eat));
+	give_time(&(philo->start_time));
+	safe_print("is thinking", philo);
 	if (even)
 	{
 		siesta(philo, philo->eating_time);

@@ -6,7 +6,7 @@
 #    By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/08 18:38:30 by pcazac            #+#    #+#              #
-#    Updated: 2023/10/25 17:58:03 by pcazac           ###   ########.fr        #
+#    Updated: 2023/10/25 22:22:46 by pcazac           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = philo
 VPATH = src obj;
 
 SRC = philo.c init_check.c struct_utils.c utils.c philo_work.c\
-		initialize_philo.c philo_study.c truth.c
+		initialize_philo.c philo_study.c truth.c philo_utils.c
 
 
 OBJ = $(SRC:%.c=$(OBJ_PATH)/%.o)
