@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/24 15:30:05 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/25 14:55:13 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,22 @@
 
 void	safe_print(char *str, t_philo *philo)
 {
+
 	pthread_mutex_lock(philo->print_fork);
 	if (existence(philo))
-		printf("%li %li %s\n", track_time() - philo->start_time->val, philo->id->val, str);
+		printf("%i %i %s\n", (int)(track_time() - philo->start_time.val), \
+		(int)philo->id.val, str);
 	pthread_mutex_unlock(philo->print_fork);
 }
 
-bool	siesta(t_philo *philo, t_mutex *time)
+bool	siesta(t_philo *philo, t_mutex time)
 {
 	long	wakeup_time;
 	long	now;
 
-	pthread_mutex_lock(time->fork);
-	wakeup_time = track_time() + time->val;
-	pthread_mutex_unlock(time->fork);
+	pthread_mutex_lock(&(time.fork));
+	wakeup_time = track_time() + time.val;
+	pthread_mutex_unlock(&(time.fork));
 	now = track_time();
 	while (now < wakeup_time)
 	{
@@ -50,13 +52,11 @@ bool	ft_even(long i)
 long	track_time(void)
 {
 	struct timeval	tp;
-	struct timezone	tzp;
 	long			time;
 
 	time = 0;
-	
-	if (gettimeofday(&tp, &tzp) < 0)
-		printf("gettimeofday error");
+	if (gettimeofday(&tp, NULL) < 0)
+		write(1, "gettimeofday error\n", 19);
 	time = tp.tv_sec * 1000 + tp.tv_usec / 1000;
 	return (time);
 }
@@ -90,6 +90,12 @@ void	free_philo(t_philo **philo)
 		if (philo[i]->left_fork)
 		{
 			pthread_mutex_destroy(philo[i]->left_fork);
+			pthread_mutex_destroy(&(philo[i]->id.fork));
+			pthread_mutex_destroy(&(philo[i]->start_time.fork));
+			pthread_mutex_destroy(&(philo[i]->eat_count.fork));
+			pthread_mutex_destroy(&(philo[i]->eating_time.fork));
+			pthread_mutex_destroy(&(philo[i]->sleeping_time.fork));
+			pthread_mutex_destroy(&(philo[i]->last_eat.fork));
 			free(philo[i]->left_fork);
 			free(philo[i]->thread);
 		}

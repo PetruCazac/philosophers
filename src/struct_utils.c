@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 09:13:08 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/24 14:17:05 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/25 11:55:09 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ long	ft_atoi(const char *str)
 	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] == '-')
-			j = transform(&str[i + 1]) * (-1);
+		j = transform(&str[i + 1]) * (-1);
 	if (str[i] == '+')
-			j = transform(&str[i + 1]);
+		j = transform(&str[i + 1]);
 	if (str[i] > 47 && str[i] < 58)
-			j = transform(&str[i]);
+		j = transform(&str[i]);
 	return (j);
 }
 
@@ -74,15 +74,30 @@ t_param	*fill_struct(char **argv)
 	param->death = false;
 	param->dead_fork = ft_calloc(1, sizeof(pthread_mutex_t));
 	if (!param->dead_fork)
-		return(false);
+		return (false);
+	if (pthread_mutex_init(param->dead_fork, NULL))
+	{
+		pthread_mutex_destroy(param->dead_fork);
+		return (false);
+	}
 	param->print_fork = ft_calloc(1, sizeof(pthread_mutex_t));
 	if (!param->print_fork)
-		return(false);
+		return (false);
+	if (pthread_mutex_init(param->print_fork, NULL))
+	{
+		pthread_mutex_destroy(param->print_fork);
+		return (false);
+	}
 	param->time_fork = ft_calloc(1, sizeof(pthread_mutex_t));
 	if (!param->time_fork)
-		return(false);
+		return (false);
+	if (pthread_mutex_init(param->time_fork, NULL))
+	{
+		pthread_mutex_destroy(param->time_fork);
+		return (false);
+	}
 	param->dying = ft_calloc(1, sizeof(pthread_t));
 	if (!param->dying)
-		return(false);
+		return (false);
 	return (param);
 }
