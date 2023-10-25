@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 22:23:12 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/25 22:33:43 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ bool	put_back_cutlery(t_philo *philo, bool even);
 bool	take_nap(t_philo *philo);
 
 // struct_utils.c
-t_param	*fill_struct(char **argv);
+bool	fill_struct(char **argv, t_param **param);
 
 // utils.c
 void	*ft_calloc(size_t count, size_t size);

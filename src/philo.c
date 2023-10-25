@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:15:58 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 21:20:39 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/25 22:33:08 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	main(int argc, char **argv)
 	param = NULL;
 	if (!check_args(argc, argv))
 		return (printf("Arg error\n"), 1);
-	param = fill_struct(argv);
+	if (!fill_struct(argv, &param))
+		free_all(param);
 	if (!initialize_philos(param))
 		free_all(param);
 	thinking_currents(param);
