@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 22:33:43 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/26 07:34:35 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,13 @@ bool	existence(t_philo *philo);
 void	*existential_crisis(void *ptr);
 
 // philo_utils.c
+void	safe_print(char *str, t_philo *philo);
 long	get_val(t_mutex *data);
 void	give_time(t_mutex *data);
+bool	siesta(t_philo *philo, long time);
+long	track_time(void);
 
-// philo_study.c
+// philo_study.ca
 bool	take_cuttlery(t_philo *philo, bool even);
 bool	eat(t_philo *philo);
 bool	put_back_cutlery(t_philo *philo, bool even);
@@ -88,13 +91,14 @@ bool	take_nap(t_philo *philo);
 bool	fill_struct(char **argv, t_param **param);
 
 // utils.c
+bool	ft_even(long i);
 void	*ft_calloc(size_t count, size_t size);
-long	track_time(void);
+long	ft_atoi(const char *str);
+
+// free.c
 void	free_philo(t_philo **philo);
 void	free_all(t_param *param);
-bool	siesta(t_philo *philo, long time);
-bool	ft_even(long i);
-void	safe_print(char *str, t_philo *philo);
+
 // truth.c
 void	*truth(void *param);
 

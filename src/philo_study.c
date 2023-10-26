@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 08:52:29 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 11:53:49 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/26 07:39:54 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,41 +25,52 @@ bool	take_nap(t_philo *philo)
 		return (false);
 }
 
+bool	right_handed()
+{
+	if (!philo->right_fork)
+		return (false);
+	pthread_mutex_lock(philo->right_fork);
+	safe_print("has taken a fork", philo);
+	if (existence(philo))
+	{
+		pthread_mutex_lock(philo->left_fork);
+		safe_print("has taken a fork", philo);
+	}
+	else
+	{
+		pthread_mutex_unlock(philo->right_fork);
+		return (false);
+	}
+
+}
+
+bool	left_handed()
+{
+	pthread_mutex_lock(philo->left_fork);
+	safe_print("has taken a fork", philo);
+	if (existence(philo))
+	{
+		pthread_mutex_lock(philo->right_fork);
+		safe_print("has taken a fork", philo);
+	}
+	else
+	{
+		pthread_mutex_unlock(philo->left_fork);
+		return (false);
+	}
+}
+
 bool	take_cuttlery(t_philo *philo, bool even)
 {
 	if (existence(philo))
 	{
 		if (!even)
 		{
-			if (!philo->right_fork)
-				return (false);
-			pthread_mutex_lock(philo->right_fork);
-			safe_print("has taken a fork", philo);
-			if (existence(philo))
-			{
-				pthread_mutex_lock(philo->left_fork);
-				safe_print("has taken a fork", philo);
-			}
-			else
-			{
-				pthread_mutex_unlock(philo->right_fork);
-				return (false);
-			}
+		
 		}
 		else if (even)
 		{
-			pthread_mutex_lock(philo->left_fork);
-			safe_print("has taken a fork", philo);
-			if (existence(philo))
-			{
-				pthread_mutex_lock(philo->right_fork);
-				safe_print("has taken a fork", philo);
-			}
-			else
-			{
-				pthread_mutex_unlock(philo->left_fork);
-				return (false);
-			}
+
 		}
 	}
 	else

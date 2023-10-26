@@ -6,57 +6,13 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 09:13:08 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 22:42:46 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/26 07:31:29 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-static long	transform(const char *s);
-static int	ft_isspace(char str);
-
-long	ft_atoi(const char *str)
-{
-	size_t	i;
-	long	j;
-
-	i = 0;
-	j = 0;
-	while (ft_isspace(str[i]))
-		i++;
-	if (str[i] == '-')
-		j = transform(&str[i + 1]) * (-1);
-	if (str[i] == '+')
-		j = transform(&str[i + 1]);
-	if (str[i] > 47 && str[i] < 58)
-		j = transform(&str[i]);
-	return (j);
-}
-
-static long	transform(const char *s)
-{
-	int		i;
-	long	j;
-
-	j = 0;
-	i = 0;
-	while (s[i] > 47 && s[i] < 58 && s[i])
-	{
-		j = j * 10 + (s[i] - 48);
-		i++;
-	}
-	return (j);
-}
-
-static int	ft_isspace(char str)
-{
-	if (str == 32 || (str >= 9 && str <= 13))
-		return (1);
-	else
-		return (0);
-}
-
-bool	initialize_mutex(t_param **param)
+static bool	initialize_mutex(t_param **param)
 {
 	if (pthread_mutex_init((*param)->dead_fork, NULL))
 	{
@@ -76,7 +32,7 @@ bool	initialize_mutex(t_param **param)
 	return (true);
 }
 
-bool	allocate_mutexes(t_param **param)
+static bool	allocate_mutexes(t_param **param)
 {
 	(*param)->dying = ft_calloc(1, sizeof(pthread_t));
 	if (!(*param)->dying)

@@ -6,37 +6,11 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:59:31 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 21:49:01 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/26 07:32:28 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-
-void	safe_print(char *str, t_philo *philo)
-{
-	pthread_mutex_lock(philo->print_fork);
-	if (existence(philo))
-		printf("%i %i %s\n", (int)(track_time() - philo->start_time.val), \
-		(int)philo->id.val, str);
-	pthread_mutex_unlock(philo->print_fork);
-}
-
-bool	siesta(t_philo *philo, long time)
-{
-	long	wakeup_time;
-	long	now;
-
-	wakeup_time = track_time() + time;
-	now = track_time();
-	while (now < wakeup_time)
-	{
-		usleep(100);
-		now = track_time();
-		if (!existence(philo))
-			return (false);
-	}
-	return (true);
-}
 
 bool	ft_even(long i)
 {
@@ -44,18 +18,6 @@ bool	ft_even(long i)
 		return (true);
 	else
 		return (false);
-}
-
-long	track_time(void)
-{
-	struct timeval	tp;
-	long			time;
-
-	time = 0;
-	if (gettimeofday(&tp, NULL) < 0)
-		write(1, "gettimeofday error\n", 19);
-	time = tp.tv_sec * 1000 + tp.tv_usec / 1000;
-	return (time);
 }
 
 void	*ft_calloc(size_t count, size_t size)
@@ -77,40 +39,35 @@ void	*ft_calloc(size_t count, size_t size)
 	return ((void *) v);
 }
 
-void	free_philo(t_philo **philo)
+static long	transform(const char *s)
 {
-	int	i;
+	int		i;
+	long	j;
 
+	j = 0;
 	i = 0;
-	while (philo[i])
+	while (s[i] > 47 && s[i] < 58 && s[i])
 	{
-		if (philo[i]->left_fork)
-		{
-			pthread_mutex_destroy(philo[i]->left_fork);
-			pthread_mutex_destroy(&(philo[i]->id.fork));
-			pthread_mutex_destroy(&(philo[i]->start_time.fork));
-			pthread_mutex_destroy(&(philo[i]->last_eat.fork));
-			free(philo[i]->left_fork);
-			free(philo[i]->thread);
-		}
-		free(philo[i]);
+		j = j * 10 + (s[i] - 48);
 		i++;
 	}
-	free(philo);
-	return ;
+	return (j);
 }
 
-void	free_all(t_param *param)
+long	ft_atoi(const char *str)
 {
-	if (param->philo)
-		free_philo(param->philo);
-	pthread_mutex_destroy(param->time_fork);
-	free(param->time_fork);
-	pthread_mutex_destroy(param->print_fork);
-	free(param->print_fork);
-	pthread_mutex_destroy(param->dead_fork);
-	free(param->dead_fork);
-	free(param->dying);
-	free(param);
-	return ;
+	size_t	i;
+	long	j;
+
+	i = 0;
+	j = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-')
+		j = transform(&str[i + 1]) * (-1);
+	if (str[i] == '+')
+		j = transform(&str[i + 1]);
+	if (str[i] > 47 && str[i] < 58)
+		j = transform(&str[i]);
+	return (j);
 }

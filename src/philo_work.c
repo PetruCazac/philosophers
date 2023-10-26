@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 10:15:00 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 22:24:10 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/26 07:35:52 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,3 +82,4 @@ bool	existence(t_philo *philo)
 	pthread_mutex_unlock(philo->dead_fork);
 	return (false);
 }
+
