@@ -6,20 +6,20 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 10:15:00 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/26 07:35:52 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/26 08:07:56 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void	set_flag(t_philo *philo)
+static void	set_flag(t_philo *philo)
 {
 	pthread_mutex_lock(philo->dead_fork);
 	philo->full = true;
 	pthread_mutex_unlock(philo->dead_fork);
 }
 
-bool	sad_life(t_philo *philo, bool even)
+static bool	sad_life(t_philo *philo, bool even)
 {
 	if (philo->eat_count == philo->cicles)
 		return (set_flag(philo), false);
@@ -82,4 +82,3 @@ bool	existence(t_philo *philo)
 	pthread_mutex_unlock(philo->dead_fork);
 	return (false);
 }
-

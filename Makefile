@@ -6,7 +6,7 @@
 #    By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/08 18:38:30 by pcazac            #+#    #+#              #
-#    Updated: 2023/10/26 07:30:27 by pcazac           ###   ########.fr        #
+#    Updated: 2023/10/26 09:08:40 by pcazac           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ OBJ_PATH = obj
 
 CC= cc
 CFLAGS= -g -pthread -Wall -Wextra -Werror
+
+# -fsanitize=thread 
 
 all: $(NAME)
 

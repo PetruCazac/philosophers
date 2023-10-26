@@ -6,13 +6,13 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 08:48:36 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/25 21:28:29 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/26 08:05:29 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-bool	allocate_mutex(long val, t_mutex *fork)
+static bool	allocate_mutex(long val, t_mutex *fork)
 {
 	if (pthread_mutex_init(&(fork->fork), NULL))
 	{
@@ -23,7 +23,7 @@ bool	allocate_mutex(long val, t_mutex *fork)
 	return (true);
 }
 
-bool	initialize_values(t_param *param, long i)
+static bool	initialize_values(t_param *param, long i)
 {
 	param->philo[i]->eat_count = 0;
 	param->philo[i]->full = false;
