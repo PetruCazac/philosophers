@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 10:15:00 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/26 08:07:56 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/26 13:54:57 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,33 @@
 
 static void	set_flag(t_philo *philo)
 {
+	long	count;
+	long	cicles;
+
+	count = get_val(&(philo->eat_count));
+	cicles = get_val(&(philo->cicles));
 	pthread_mutex_lock(philo->dead_fork);
-	philo->full = true;
+	if (count == cicles)
+		philo->full = true;
 	pthread_mutex_unlock(philo->dead_fork);
 }
 
 static bool	sad_life(t_philo *philo, bool even)
 {
-	if (philo->eat_count == philo->cicles)
-		return (set_flag(philo), false);
-	if (philo->eat_count++ != 0 && !think(philo))
+	long	count;
+
+	count = get_val(&(philo->eat_count));
+	if (count != 0 && !think(philo))
 		return (false);
 	if (!take_cuttlery(philo, even))
 		return (false);
 	if (!eat(philo))
 		return (false);
-	if (!put_back_cutlery(philo, even))
+	if (!put_back_cutlery(philo))
 		return (false);
 	if (!take_nap(philo))
 		return (false);
+	set_flag(philo);
 	return (true);
 }
 

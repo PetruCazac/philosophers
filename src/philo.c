@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:15:58 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/26 09:08:13 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/26 09:27:34 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@ bool	thinking_currents(t_param *param)
 
 	i = -1;
 	while (param->philo[++i])
+	{
+		give_time(&(param->philo[i]->last_eat));
 		pthread_create(param->philo[i]->thread, NULL, &existential_crisis, \
 			(void *)param->philo[i]);
+	}
 	pthread_create(param->dying, NULL, &truth, param);
 	i = -1;
 	while (param->philo[++i])

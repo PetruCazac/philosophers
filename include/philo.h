@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 09:16:17 by pcazac            #+#    #+#             */
-/*   Updated: 2023/10/26 08:49:34 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/10/26 11:39:27 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ typedef struct s_param
 typedef struct s_philo
 {
 	pthread_t		*thread;
-	long			eat_count;
-	long			cicles;
 	long			eating_time;
 	long			sleeping_time;
 	bool			full;
@@ -57,6 +55,8 @@ typedef struct s_philo
 	t_mutex			id;
 	t_mutex			last_eat;
 	t_mutex			start_time;
+	t_mutex			eat_count;
+	t_mutex			cicles;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*dead_fork;
@@ -86,7 +86,7 @@ bool	think(t_philo *philo);
 // philo_study.ca
 bool	take_cuttlery(t_philo *philo, bool even);
 bool	eat(t_philo *philo);
-bool	put_back_cutlery(t_philo *philo, bool even);
+bool	put_back_cutlery(t_philo *philo);
 
 // struct_utils.c
 bool	fill_struct(char **argv, t_param **param);
