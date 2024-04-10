@@ -22,7 +22,7 @@ OBJ = $(SRC:%.c=$(OBJ_PATH)/%.o)
 OBJ_PATH = obj
 
 CC= cc
-CFLAGS= -g -pthread -Wall -Wextra -Werror
+CFLAGS= -g -pthread -Wall -Wextra -Werror -Iinclude
 # -pthread
 # -fsanitize=thread
 
